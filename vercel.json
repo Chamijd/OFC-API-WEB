@@ -18,8 +18,17 @@
       "destination": "server.js"
     },
     {
+      "source": "/",
+      "destination": "/public/index.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/public/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/public/404.html",
+      "statusCode": 404
     }
   ],
   "headers": [
@@ -50,9 +59,6 @@
       ]
     }
   ],
-  "errorPages": {
-    "404": "/public/404.html"
-  },
   "env": {
     "NODE_ENV": "production",
     "PEXELS_API_KEY": "BESFRiz4o2zHpYHdBbBy7wEAohLb6IrDtFpDVw6GpFcFvmnPtCmD7J1K"
