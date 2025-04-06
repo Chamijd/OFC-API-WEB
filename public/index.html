@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thenux-API Hub</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="terminal-bar">
+    <div class="terminal-tabs">
+      <span class="active">bash</span>
+      <span>server.log</span>
+      <span>api-status</span>
+    </div>
+    <div class="terminal-controls">
+      <i class="fas fa-minus"></i>
+      <i class="fas fa-square"></i>
+      <i class="fas fa-times"></i>
+    </div>
+  </div>
+
+  <header>
+    <div class="logo">
+      <span class="logo-icon">></span>
+      <h1>Thenux-API_</h1>
+      <span class="cursor">|</span>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#home" class="active"><i class="fas fa-home"></i> <span>Home</span></a></li>
+        <li><a href="#apis"><i class="fas fa-code"></i> <span>APIs</span></a></li>
+        <li><a href="#docs"><i class="fas fa-book"></i> <span>Docs</span></a></li>
+        <li><a href="#status"><i class="fas fa-server"></i> <span>Status</span></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="active-section">
+      <div class="terminal-window">
+        <div class="terminal-header">
+          <div class="btn red"></div>
+          <div class="btn yellow"></div>
+          <div class="btn green"></div>
+          <span class="title">welcome.sh</span>
+        </div>
+        <div class="terminal-body">
+          <div class="command-line">
+            <span class="prompt">user@thenux-api:~$</span>
+            <span class="command">cat welcome.txt</span>
+          </div>
+          <div class="output">
+            <pre>
+  _______ _   _ _  _  ____ _   _ ___  
+ |__  __| | | | \| |/ __| | | | _ \ 
+    | |  | |_| | .` | (__| |_| |  _/ 
+    |_|   \___/|_|\_|\___|\___/|_|   
+                                     
+            </pre>
+            <p>> Thenux-API v1.0.0</p>
+            <p>> A collection of powerful APIs for developers</p>
+            <p>> Type 'help' for available commands</p>
+          </div>
+          <div class="command-line input-line">
+            <span class="prompt">user@thenux-api:~$</span>
+            <input type="text" placeholder="help" class="command-input">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="apis">
+      <h2><i class="fas fa-code"></i> Available APIs</h2>
+      
+      <div class="api-grid">
+        <!-- Anime API Card -->
+        <div class="api-card">
+          <div class="api-header">
+            <i class="fas fa-film"></i>
+            <h3>Anime API</h3>
+            <span class="status-badge active">Online</span>
+          </div>
+          <div class="api-body">
+            <p>Get random anime images and artwork</p>
+            <div class="endpoints">
+              <div class="endpoint">
+                <span class="method get">GET</span>
+                <span class="url">/api/anime/random</span>
+                <a href="/api/anime/random" target="_blank" class="try-btn">Try</a>
+              </div>
+              <div class="endpoint">
+                <span class="method get">GET</span>
+                <span class="url">/api/pexels/anime-girl</span>
+                <a href="/api/pexels/anime-girl" target="_blank" class="try-btn">Try</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Movie API Card -->
+        <div class="api-card">
+          <div class="api-header">
+            <i class="fas fa-video"></i>
+            <h3>Movie API</h3>
+            <span class="status-badge active">Online</span>
+          </div>
+          <div class="api-body">
+            <p>Search and download movie information</p>
+            <div class="endpoints">
+              <div class="endpoint">
+                <span class="method get">GET</span>
+                <span class="url">/api/movie/search?q=</span>
+                <a href="/api/search?q=deadpool" target="_blank" class="try-btn">Try</a>
+              </div>
+              <div class="endpoint">
+                <span class="method get">GET</span>
+                <span class="url">/api/movie/download</span>
+                <a href="/api/movie/download?url=https://sinhalasub.lk/movies/deadpool-wolverine-2024-sinhala-subtitles/" target="_blank" class="try-btn">Try</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="docs">
+      <h2><i class="fas fa-book"></i> Documentation</h2>
+      <div class="docs-container">
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="anime">Anime API</button>
+          <button class="tab-btn" data-tab="movie">Movie API</button>
+          <button class="tab-btn" data-tab="search">Search API</button>
+        </div>
+        
+        <div class="tab-content active" id="anime-tab">
+          <h3>Anime API Documentation</h3>
+          <div class="code-block">
+            <pre><code class="javascript">
+// Fetch random anime image
+fetch('/api/anime/random')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data.image_url);
+  });
+            </code></pre>
+          </div>
+        </div>
+        
+        <div class="tab-content" id="movie-tab">
+          <h3>Movie API Documentation</h3>
+          <div class="code-block">
+            <pre><code class="javascript">
+// Fetch movie download links
+fetch('/api/download-links?url=movie-url')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data.downloadOptions);
+  });
+            </code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="social-links">
+        <a href="#"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-discord"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+      </div>
+      <p>© 2023 Thenux-API | Made with <i class="fas fa-heart"></i> for developers</p>
+    </div>
+  </footer>
+
+  <script>
+    // Tab functionality
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove active class from all buttons and content
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        
+        // Add active class to clicked button and corresponding content
+        btn.classList.add('active');
+        const tabId = btn.getAttribute('data-tab') + '-tab';
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+
+    // Navigation functionality
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Remove active class from all links and sections
+        document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+        document.querySelectorAll('section').forEach(s => s.classList.remove('active-section'));
+        
+        // Add active class to clicked link and corresponding section
+        link.classList.add('active');
+        const sectionId = link.getAttribute('href').substring(1);
+        document.getElementById(sectionId).classList.add('active-section');
+      });
+    });
+
+    // Terminal typing effect
+    const commands = ['help', 'api status', 'docs --open'];
+    let commandIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const commandInput = document.querySelector('.command-input');
+
+    function typeCommand() {
+      const currentCommand = commands[commandIndex];
+      
+      if (isDeleting) {
+        commandInput.placeholder = currentCommand.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        commandInput.placeholder = currentCommand.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      if (!isDeleting && charIndex === currentCommand.length) {
+        isDeleting = true;
+        setTimeout(typeCommand, 1000);
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        commandIndex = (commandIndex + 1) % commands.length;
+        setTimeout(typeCommand, 500);
+      } else {
+        setTimeout(typeCommand, isDeleting ? 50 : 100);
+      }
+    }
+
+    // Start typing effect
+    setTimeout(typeCommand, 1000);
+  </script>
+</body>
+</html>
