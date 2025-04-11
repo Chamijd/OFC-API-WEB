@@ -126,6 +126,63 @@
       </div>
     </section>
 
+    
+  
+    <section id="status">
+        <h2><i class="fas fa-heartbeat"></i> System Status</h2>
+        <div class="status-container">
+          <div class="status-grid">
+            <!-- Battery Status -->
+            <div class="status-card" id="battery-card">
+              <div class="status-title">
+                <i class="fas fa-battery-full"></i>
+                Battery Status
+              </div>
+              <div id="battery-status" class="status-value">Checking...</div>
+            </div>
+            
+            <!-- Location Info -->
+            <div class="status-card">
+              <div class="status-title">
+                <i class="fas fa-map-marker-alt"></i>
+                Approximate Location
+              </div>
+              <div id="location-info" class="status-value">
+                <div>City: <span id="city">Detecting...</span></div>
+                <div>Region: <span id="region">-</span></div>
+                <div>Country: <span id="country">-</span></div>
+              </div>
+            </div>
+            
+            <!-- Network Info -->
+            <div class="status-card">
+              <div class="status-title">
+                <i class="fas fa-network-wired"></i>
+                Network
+              </div>
+              <div id="network-info" class="status-value">
+                <div>IP: <span id="ip-address">-</span></div>
+                <div>Status: <span id="connection-status">-</span></div>
+                <div>ISP: <span id="isp-info">-</span></div>
+              </div>
+            </div>
+            
+            <!-- System Info -->
+            <div class="status-card">
+              <div class="status-title">
+                <i class="fas fa-desktop"></i>
+                System
+              </div>
+              <div id="system-info" class="status-value">
+                <div>Browser: <span id="browser-name">-</span></div>
+                <div>Platform: <span id="platform">-</span></div>
+                <div>Screen: <span id="screen-res">-</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
     <section id="docs">
       <h2><i class="fas fa-book"></i> Documentation</h2>
       <div class="docs-container">
@@ -160,6 +217,11 @@ fetch('/api/download-links?url=movie-url')
     console.log(data.downloadOptions);
   });
             </code></pre>
+            
+                  </div>
+                </div>
+              </section>
+            
           </div>
         </div>
       </div>
@@ -169,7 +231,7 @@ fetch('/api/download-links?url=movie-url')
   <footer>
     <div class="footer-content">
       <div class="social-links">
-        <a href="https://github.com/darkhackersl/"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
         <a href="#"><i class="fab fa-discord"></i></a>
         <a href="#"><i class="fab fa-twitter"></i></a>
       </div>
@@ -240,6 +302,119 @@ fetch('/api/download-links?url=movie-url')
 
     // Start typing effect
     setTimeout(typeCommand, 1000);
+    
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // 1. Battery Status
+      function initBattery() {
+        if ('getBattery' in navigator) {
+          navigator.getBattery().then(battery => {
+            function updateBattery() {
+              const percent = Math.round(battery.level * 100);
+              const batteryElement = document.getElementById('battery-status');
+              const icon = document.querySelector('#battery-card .fa');
+              
+              // Update icon based on level
+              if (percent >= 90) icon.className = 'fas fa-battery-full';
+              else if (percent >= 60) icon.className = 'fas fa-battery-three-quarters';
+              else if (percent >= 30) icon.className = 'fas fa-battery-half';
+              else if (percent >= 10) icon.className = 'fas fa-battery-quarter';
+              else icon.className = 'fas fa-battery-empty';
+              
+              // Set text and color
+              batteryElement.textContent = `${percent}%${battery.charging ? ' (Charging)' : ''}`;
+              
+              if (percent <= 10) {
+                batteryElement.className = 'status-value battery-critical';
+              } else if (percent <= 30) {
+                batteryElement.className = 'status-value battery-low';
+              } else if (percent <= 70) {
+                batteryElement.className = 'status-value battery-medium';
+              } else if (percent < 100) {
+                batteryElement.className = 'status-value battery-high';
+              } else {
+                batteryElement.className = 'status-value battery-full';
+              }
+            }
+            
+            battery.addEventListener('levelchange', updateBattery);
+            battery.addEventListener('chargingchange', updateBattery);
+            updateBattery();
+          }).catch(() => {
+            document.getElementById('battery-card').style.display = 'none';
+          });
+        } else {
+          document.getElementById('battery-card').style.display = 'none';
+        }
+      }
+      
+      // 2. Location and Network Info
+      function initLocationAndNetwork() {
+        // First get IP address
+        fetch('https://api.ipify.org?format=json')
+          .then(r => r.json())
+          .then(ipData => {
+            document.getElementById('ip-address').textContent = ipData.ip;
+            
+            // Then get location details using ip-api.com
+            return fetch(`http://ip-api.com/json/${ipData.ip}?fields=status,message,country,regionName,city,isp`);
+          })
+          .then(r => r.json())
+          .then(locationData => {
+            if (locationData.status === 'success') {
+              document.getElementById('city').textContent = locationData.city || 'Unknown';
+              document.getElementById('region').textContent = locationData.regionName || 'Unknown';
+              document.getElementById('country').textContent = locationData.country || 'Unknown';
+              document.getElementById('isp-info').textContent = locationData.isp || 'Unknown';
+            } else {
+              throw new Error(locationData.message || 'Location detection failed');
+            }
+          })
+          .catch(error => {
+            console.error('Location detection error:', error);
+            document.getElementById('city').textContent = 'Error detecting';
+          });
+      }
+      
+      // 3. Connection Status
+      function updateConnectionStatus() {
+        const statusElement = document.getElementById('connection-status');
+        if (navigator.onLine) {
+          statusElement.textContent = 'Online';
+          statusElement.style.color = '#00ffcc';
+        } else {
+          statusElement.textContent = 'Offline';
+          statusElement.style.color = '#ff5555';
+        }
+      }
+      
+      // 4. System Info
+      function initSystemInfo() {
+        // Browser detection
+        const userAgent = navigator.userAgent;
+        let browserName;
+        
+        if (userAgent.includes('Firefox')) browserName = 'Firefox';
+        else if (userAgent.includes('Safari') && !userAgent.includes('Chrome')) browserName = 'Safari';
+        else if (userAgent.includes('Chrome')) browserName = 'Chrome';
+        else if (userAgent.includes('Edg')) browserName = 'Edge';
+        else browserName = 'Unknown';
+        
+        document.getElementById('browser-name').textContent = browserName;
+        document.getElementById('platform').textContent = navigator.platform;
+        document.getElementById('screen-res').textContent = `${window.screen.width}x${window.screen.height}`;
+      }
+      
+      // Initialize all features
+      initBattery();
+      initLocationAndNetwork();
+      initSystemInfo();
+      updateConnectionStatus();
+      
+      // Update connection status if it changes
+      window.addEventListener('online', updateConnectionStatus);
+      window.addEventListener('offline', updateConnectionStatus);
+    });
   </script>
 </body>
 </html>
