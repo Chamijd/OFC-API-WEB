@@ -6,29 +6,32 @@
     {
       "src": "server.js",
       "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(anime|amazon|weather|jobs|manga|netflix|disney|spam|ytmp3|igstory|gemini|igdl|movie|search|searchm)/.*",
+      "dest": "server.js",
+      "methods": ["GET", "POST", "OPTIONS"]
     },
     {
-      "src": "public/*",
-      "use": "@vercel/static"
+      "src": "/",
+      "dest": "/public/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/$1"
+    },
+    {
+      "src": "/.*",
+      "status": 404,
+      "dest": "/public/404.html"
     }
   ],
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "server.js"
-    },
-    {
-      "source": "/",
-      "destination": "/public/index.html"
-    },
-    {
       "source": "/(.*)",
       "destination": "/public/$1"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/public/404.html",
-      "statusCode": 404
     }
   ],
   "headers": [
@@ -45,22 +48,27 @@
         },
         {
           "key": "Access-Control-Allow-Headers",
-          "value": "X-Requested-With, Content-Type, Accept"
-        }
-      ]
-    },
-    {
-      "source": "/public/_next/static/(.*)",
-      "headers": [
+          "value": "X-Requested-With, Content-Type, Accept, Authorization"
+        },
         {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
+          "key": "X-API-Version",
+          "value": "1.0"
         }
       ]
     }
   ],
   "env": {
     "NODE_ENV": "production",
-    "PEXELS_API_KEY": "BESFRiz4o2zHpYHdBbBy7wEAohLb6IrDtFpDVw6GpFcFvmnPtCmD7J1K"
+    "PEXELS_API_KEY": "@pexels_api_key",
+    "OPENWEATHER_API_KEY": "@openweather_api_key",
+    "JIKAN_API_BASE": "https://api.jikan.moe/v4",
+    "DEFAULT_API_KEY": "@thenux_api_key"
+  },
+  "regions": ["iad1"],
+  "functions": {
+    "server.js": {
+      "memory": 1024,
+      "maxDuration": 30
+    }
   }
 }
