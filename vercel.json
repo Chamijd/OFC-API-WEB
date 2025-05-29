@@ -52,11 +52,5 @@
     "OPENWEATHER_API_KEY": "@openweather_api_key",
     "JIKAN_API_BASE": "https://api.jikan.moe/v4",
     "DEFAULT_API_KEY": "@thenux_api_key"
-  },
-  "functions": {
-    "server.js": {
-      "memory": 1024,
-      "maxDuration": 30
-    }
   }
 }
