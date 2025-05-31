@@ -8,19 +8,18 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "/server.js",
-      "methods": ["GET", "POST", "OPTIONS"]
+      "source": "/api/(anime|amazon|weather|jobs|manga|netflix|disney|spam|ytmp3|igstory|gemini|igdl|movie|search|searchm)/.*",
+      "destination": "/server.js"
     },
     {
-      "src": "/",
-      "dest": "/public/index.html"
+      "source": "/",
+      "destination": "/public/index.html"
     },
     {
-      "src": "/(.*)",
-      "dest": "/public/$1"
+      "source": "/(.*)",
+      "destination": "/public/$1"
     }
   ],
   "headers": [
@@ -52,5 +51,13 @@
     "OPENWEATHER_API_KEY": "@openweather_api_key",
     "JIKAN_API_BASE": "https://api.jikan.moe/v4",
     "DEFAULT_API_KEY": "@thenux_api_key"
+  },
+  "regions": ["iad1"],
+  "functions": {
+    "server.js": {
+      "memory": 1024,
+      "maxDuration": 30
+    }
   }
 }
+
