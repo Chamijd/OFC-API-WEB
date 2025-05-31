@@ -24,39 +24,37 @@ app.use('/api', apiRoutes);
 
 // Serve Frontend
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html', 'styles.css'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-// Force correct MIME type
+
+// Force correct MIME type for CSS files
 app.get('/styles.css', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'styles.css'), {
-      headers: {
-        'Content-Type': 'text/css'
-      }
-    });
+  res.sendFile(path.join(__dirname, 'public', 'styles.css'), {
+    headers: {
+      'Content-Type': 'text/css'
+    }
   });
+});
+
+app.get('/style.css', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'style.css'), {
+    headers: {
+      'Content-Type': 'text/css'
+    }
+  });
+});
+
 // 404 Handler
-/*app.use((req, res) => {
-  res.status(404).json({ success: false, error: 'Endpoint not found' });
-});*/
-
-
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
+});
 
 // Error Handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ success: false, error: 'Internal server error' });
 });
-app.get('/style.css', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'style.css'), {
-      headers: {
-        'Content-Type': 'text/css'
-      }
-    });
-  });
-// Add this after all your routes but before error handler
-app.use((req, res) => {
-    res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
-  });
+
 // Start Server
 app.listen(PORT, () => {
   console.log(`🚀 Thenux API Server running on port ${PORT}`);
