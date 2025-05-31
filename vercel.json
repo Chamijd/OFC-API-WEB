@@ -10,12 +10,12 @@
   ],
   "rewrites": [
     {
-      "source": "/api/:path*",
+      "source": "api/:path*",
       "destination": "/server.js"
     },
     {
       "source": "/",
-      "destination": "/public/index.html"
+      "destination": "public/index.html"
     },
     {
       "source": "/:path*",
