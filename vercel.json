@@ -10,7 +10,7 @@
   ],
   "rewrites": [
     {
-      "source": "/api/(anime|amazon|weather|jobs|manga|netflix|disney|spam|ytmp3|igstory|gemini|igdl|movie|search|searchm)/.*",
+      "source": "/api/:path*",
       "destination": "/server.js"
     },
     {
@@ -18,8 +18,8 @@
       "destination": "/public/index.html"
     },
     {
-      "source": "/(.*)",
-      "destination": "/public/$1"
+      "source": "/:path*",
+      "destination": "/public/:path*"
     }
   ]
 }
